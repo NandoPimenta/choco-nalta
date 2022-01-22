@@ -7,9 +7,13 @@ public class PlayerMoviment : MonoBehaviour
 
     public Rigidbody2D myRigidbody2D;
 
-    public Vector2 velocity = new Vector2(10f,0f);
+    public Vector2 friction = new Vector2(-.1f, 0);
 
-    public float speed = 10f;
+    public float speed = 1.5f;
+
+    public float forceJump = 6f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +23,42 @@ public class PlayerMoviment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftArrow)){
+        HandleJump();
+        HandleMoviment();
+    }
+
+
+
+    private void HandleMoviment()
+    {
+        if (Input.GetKey(KeyCode.A))
+        {
             //myRigidbody2D.MovePosition(myRigidbody2D.position - velocity * Time.deltaTime);
             myRigidbody2D.velocity = new Vector2(-speed, myRigidbody2D.velocity.y);
-        }else if(Input.GetKey(KeyCode.RightArrow)){
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
             myRigidbody2D.velocity = new Vector2(speed, myRigidbody2D.velocity.y);
         }
+
+
+        if(myRigidbody2D.velocity.x > 0)
+        {
+            myRigidbody2D.velocity += friction; 
+        }else if (myRigidbody2D.velocity.x < 0)
+        {
+            myRigidbody2D.velocity -= friction;
+        }
+
     }
+
+
+    private void HandleJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            myRigidbody2D.velocity = Vector2.up * forceJump;
+        }
+    }
+
 }
