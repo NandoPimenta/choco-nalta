@@ -23,6 +23,15 @@ public class PlayerMoviment : MonoBehaviour
 
     private float _currentSpeed;
 
+
+    [Header("Animation player")]
+    public string boolRun = "Run";
+    public string boolJumpUp = "JumpUp";
+    public string boolJumpDown = "JumpDown";
+    public Animator animator;
+    private float playerSwipeDuration = .1f;
+    private bool isJumping = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,22 +54,42 @@ public class PlayerMoviment : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
+                
             _currentSpeed = speedRun;
+            animator.speed = 2;
+            
         }
         else
         {
             _currentSpeed = speed;
+            animator.speed = 1;
+
         }
 
 
         if (Input.GetKey(KeyCode.A))
         {
-            //myRigidbody2D.MovePosition(myRigidbody2D.position - velocity * Time.deltaTime);
+            
             myRigidbody2D.velocity = new Vector2(-_currentSpeed, myRigidbody2D.velocity.y);
+            if(myRigidbody2D.transform.localScale.x != -1)
+            {
+                myRigidbody2D.transform.DOScaleX(-1, playerSwipeDuration);
+            }
+                
+            animator.SetBool(boolRun, true);
         }
         else if (Input.GetKey(KeyCode.D))
         {
             myRigidbody2D.velocity = new Vector2(_currentSpeed, myRigidbody2D.velocity.y);
+            if (myRigidbody2D.transform.localScale.x != 1)
+            {
+                myRigidbody2D.transform.DOScaleX(1, playerSwipeDuration);
+            }
+            animator.SetBool(boolRun, true);
+        }
+        else
+        {
+            animator.SetBool(boolRun, false);
         }
 
 
@@ -77,21 +106,38 @@ public class PlayerMoviment : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
+            isJumping = true;
+            animator.SetBool(boolJumpUp, true);
             myRigidbody2D.velocity = Vector2.up * forceJump;
             myRigidbody2D.transform.localScale = Vector2.one;
 
             DOTween.Kill(myRigidbody2D.transform);
-            HandleScaleJump();
+            
+            StartCoroutine(JumpDown());
         }
     }
 
 
-    private void HandleScaleJump()
+    IEnumerator JumpDown()
     {
-        myRigidbody2D.transform.DOScaleY(jumpScaleY, animationDuration).SetLoops(2,LoopType.Yoyo).SetEase(ease);
-        myRigidbody2D.transform.DOScaleX(jumpScaleX, animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
+        yield return new WaitForSeconds(1);
+        animator.SetBool(boolJumpUp, false);
+        animator.SetBool(boolJumpDown, true);
+        
+
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+    
+        if (collision.gameObject.CompareTag("floor"))
+        {
+            animator.SetBool(boolJumpUp, false);
+            animator.SetBool(boolJumpDown, false);
+            isJumping = false;
+        }
     }
 
 }
