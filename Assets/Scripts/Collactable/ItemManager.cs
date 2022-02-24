@@ -1,21 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ItemManager : MonoBehaviour
+using Core.Singleton;
+public class ItemManager : Singleton<ItemManager>
 {
     public int coins;
 
-    public static ItemManager Instance;
 
 
-    private void Awake()
+    private void Start()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-
         Reset();
     }
 
