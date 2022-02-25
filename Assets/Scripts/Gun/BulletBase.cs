@@ -9,7 +9,7 @@ public class BulletBase : MonoBehaviour
     public float timeToDestroy = 2f;
     public float side = 1;
 
-    public int damageAmount = 1;
+    public int damageAmount = 5;
 
 
     private void Awake()

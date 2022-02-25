@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core.Singleton;
+using TMPro;
 public class ItemManager : Singleton<ItemManager>
 {
     public int coins;
 
-
+    public TextMeshProUGUI textCoins;
+  
 
     private void Start()
     {
@@ -22,6 +24,8 @@ public class ItemManager : Singleton<ItemManager>
     public void AddCoins(int amount = 1)
     {
         coins += amount;
+
+        textCoins.SetText("X " + coins);
     }
 
 

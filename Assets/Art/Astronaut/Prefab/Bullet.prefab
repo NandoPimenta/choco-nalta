@@ -147,9 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d20ff68fe40fe49842ba993444ab61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direaction: {x: 10, y: 0, z: 0}
-  timeToDestroy: 2
+  direaction: {x: 25, y: 0, z: 0}
+  timeToDestroy: 4
   side: 1
+  damageAmount: 5
 --- !u!210 &2784866499344881641
 SortingGroup:
   m_ObjectHideFlags: 0
