@@ -20,6 +20,7 @@ public class PlayerMoviment : MonoBehaviour
     public float jumpScaleX = .7f;
     public float animationDuration = .3f;
     public Ease ease = Ease.OutBack;
+    public HealthBase healthBase;
 
     private float _currentSpeed;
 
@@ -28,15 +29,27 @@ public class PlayerMoviment : MonoBehaviour
     public string boolRun = "Run";
     public string boolJumpUp = "JumpUp";
     public string boolJumpDown = "JumpDown";
+    public string triggerDeath = "Death";
     public Animator animator;
     private float playerSwipeDuration = .1f;
     private bool isJumping = false;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
+    {
+        if (healthBase != null)
+        {
+            healthBase.OnKill += OnPlayerKill;
+        }
+    }
+
+    private void OnPlayerKill()
     {
         
+        healthBase.OnKill -= OnPlayerKill;
+        animator.SetTrigger(triggerDeath);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -138,6 +151,12 @@ public class PlayerMoviment : MonoBehaviour
             animator.SetBool(boolJumpDown, false);
             isJumping = false;
         }
+    }
+
+
+    public void DestroyMe()
+    {
+        Destroy(gameObject);
     }
 
 }
