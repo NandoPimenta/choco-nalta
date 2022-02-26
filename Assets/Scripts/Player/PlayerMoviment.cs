@@ -6,33 +6,22 @@ using DG.Tweening;
 public class PlayerMoviment : MonoBehaviour
 {
 
+    [Header("Setup")]
+    public SOPlayerSetup sOPlayerSetup;
+
+
     public Rigidbody2D myRigidbody2D;
-
-
-    [Header("Speed setup")]
-    public Vector2 friction = new Vector2(-.1f, 0);
-    public float speed = 5f;
-    public float speedRun = 10f;
-    public float forceJump = 7f;
-
-    [Header("Animation setup")]
-    public float jumpScaleY = 1.5f;
-    public float jumpScaleX = .7f;
-    public float animationDuration = .3f;
-    public Ease ease = Ease.OutBack;
     public HealthBase healthBase;
-
-    private float _currentSpeed;
-
-
-    [Header("Animation player")]
-    public string boolRun = "Run";
-    public string boolJumpUp = "JumpUp";
-    public string boolJumpDown = "JumpDown";
-    public string triggerDeath = "Death";
     public Animator animator;
+
+    private string boolRun = "Run";
+    private string boolJumpUp = "JumpUp";
+    private string boolJumpDown = "JumpDown";
+    private string triggerDeath = "Death";
+
     private float playerSwipeDuration = .1f;
     private bool isJumping = false;
+    private float _currentSpeed;
 
 
     private void Awake()
@@ -68,13 +57,13 @@ public class PlayerMoviment : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl))
         {
                 
-            _currentSpeed = speedRun;
+            _currentSpeed = sOPlayerSetup.speedRun;
             animator.speed = 2;
             
         }
         else
         {
-            _currentSpeed = speed;
+            _currentSpeed = sOPlayerSetup.speed;
             animator.speed = 1;
 
         }
@@ -108,10 +97,10 @@ public class PlayerMoviment : MonoBehaviour
 
         if(myRigidbody2D.velocity.x > 0)
         {
-            myRigidbody2D.velocity += friction; 
+            myRigidbody2D.velocity += sOPlayerSetup.friction; 
         }else if (myRigidbody2D.velocity.x < 0)
         {
-            myRigidbody2D.velocity -= friction;
+            myRigidbody2D.velocity -= sOPlayerSetup.friction;
         }
 
     }
@@ -123,7 +112,7 @@ public class PlayerMoviment : MonoBehaviour
         {
             isJumping = true;
             animator.SetBool(boolJumpUp, true);
-            myRigidbody2D.velocity = Vector2.up * forceJump;
+            myRigidbody2D.velocity = Vector2.up * sOPlayerSetup.forceJump;
             myRigidbody2D.transform.localScale = Vector2.one;
 
             DOTween.Kill(myRigidbody2D.transform);

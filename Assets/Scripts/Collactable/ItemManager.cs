@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core.Singleton;
-using TMPro;
 public class ItemManager : Singleton<ItemManager>
 {
-    public int coins;
+    public SOInt coins;
 
-    public TextMeshProUGUI textCoins;
-  
 
     private void Start()
     {
@@ -17,15 +14,15 @@ public class ItemManager : Singleton<ItemManager>
 
     private void Reset()
     {
-        coins = 0;
-        AddCoins();
+        coins.value = 0;
+
     }
 
     public void AddCoins(int amount = 1)
     {
-        coins += amount;
+        coins.value += amount;
 
-        textCoins.SetText("X " + coins);
+       // UIInGameManager.UpdateTextCoins(coins.ToString());
     }
 
 
