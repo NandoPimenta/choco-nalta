@@ -6,7 +6,9 @@ public class ItemCollactableBase : MonoBehaviour
 {
 
     public string compareTag = "Player";
-
+    public ParticleSystem particleSystem;
+    public float timeToHide = 2.0f;
+    public GameObject graphicItem;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag(compareTag))
@@ -18,11 +20,28 @@ public class ItemCollactableBase : MonoBehaviour
 
 
     protected virtual void Collect() {
+        if(graphicItem != null)graphicItem.SetActive(false);
+        Invoke(nameof(HideObject),timeToHide);
         OnCollect();
-        gameObject.SetActive(false);
     }
 
-
-    protected virtual void OnCollect() { }
+    private void HideObject()
+    {
+        gameObject.SetActive(false);
+    }
+    protected virtual void OnCollect()
+    {
+        if (particleSystem != null)
+        {
+            Debug.Log("Entroi aqyu");
+            particleSystem.Play();
+        }
+        else
+        {
+            Debug.Log("nao Entroi aqyu");
+        }
+    }
+    
+    
 
 }
