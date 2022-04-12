@@ -13,7 +13,9 @@ public class PlayerMoviment : MonoBehaviour
     public Rigidbody2D myRigidbody2D;
     public HealthBase healthBase;
     public Animator animator;
-
+    public ParticleSystem particleDust;
+    public ParticleSystem particleJump;
+    
     private string boolRun = "Run";
     private string boolJumpUp = "JumpUp";
     private string boolJumpDown = "JumpDown";
@@ -23,6 +25,7 @@ public class PlayerMoviment : MonoBehaviour
     private bool isJumping = false;
     private float _currentSpeed;
 
+        
 
     private void Awake()
     {
@@ -71,7 +74,7 @@ public class PlayerMoviment : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            
+            if(particleDust.isStopped) particleDust.Play();
             myRigidbody2D.velocity = new Vector2(-_currentSpeed, myRigidbody2D.velocity.y);
             if(myRigidbody2D.transform.localScale.x != -1)
             {
@@ -82,6 +85,7 @@ public class PlayerMoviment : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.D))
         {
+            if(particleDust.isStopped) particleDust.Play();
             myRigidbody2D.velocity = new Vector2(_currentSpeed, myRigidbody2D.velocity.y);
             if (myRigidbody2D.transform.localScale.x != 1)
             {
@@ -109,7 +113,9 @@ public class PlayerMoviment : MonoBehaviour
     private void HandleJump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
-        {
+        {   
+            particleDust.Stop();
+            particleJump.Play();
             isJumping = true;
             animator.SetBool(boolJumpUp, true);
             myRigidbody2D.velocity = Vector2.up * sOPlayerSetup.forceJump;
@@ -118,6 +124,7 @@ public class PlayerMoviment : MonoBehaviour
             DOTween.Kill(myRigidbody2D.transform);
             
             StartCoroutine(JumpDown());
+          
         }
     }
 

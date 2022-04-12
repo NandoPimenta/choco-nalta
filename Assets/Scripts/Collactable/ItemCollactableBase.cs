@@ -33,13 +33,9 @@ public class ItemCollactableBase : MonoBehaviour
     {
         if (particleSystem != null)
         {
-            Debug.Log("Entroi aqyu");
             particleSystem.Play();
         }
-        else
-        {
-            Debug.Log("nao Entroi aqyu");
-        }
+       
     }
     
     
