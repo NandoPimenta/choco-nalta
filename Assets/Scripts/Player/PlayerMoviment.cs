@@ -24,7 +24,7 @@ public class PlayerMoviment : MonoBehaviour
     private float playerSwipeDuration = .1f;
     private bool isJumping = false;
     private float _currentSpeed;
-
+    
         
 
     private void Awake()
