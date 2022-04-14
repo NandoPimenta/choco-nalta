@@ -10,7 +10,8 @@ public class ItemCollactableBase : MonoBehaviour
     public ParticleSystem particleSystem;
     public float timeToHide = 2.0f;
     public GameObject graphicItem;
-
+    
+    
     [Header("Sounds")] public AudioSource audio;
     
     private void OnTriggerEnter2D(Collider2D collision)
