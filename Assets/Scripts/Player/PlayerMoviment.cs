@@ -24,10 +24,9 @@ public class PlayerMoviment : MonoBehaviour
     private float playerSwipeDuration = .1f;
     private bool isJumping = false;
     private float _currentSpeed;
-    
-        
+    [Header("Audio")] public AudioSource audio;
 
-    private void Awake()
+     private void Awake()
     {
         if (healthBase != null)
         {
@@ -116,6 +115,7 @@ public class PlayerMoviment : MonoBehaviour
         {   
             particleDust.Stop();
             particleJump.Play();
+            if(audio != null) audio.Play();
             isJumping = true;
             animator.SetBool(boolJumpUp, true);
             myRigidbody2D.velocity = Vector2.up * sOPlayerSetup.forceJump;

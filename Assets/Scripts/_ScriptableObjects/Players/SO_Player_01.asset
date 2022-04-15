@@ -15,5 +15,5 @@ MonoBehaviour:
   friction: {x: -1, y: 0}
   speed: 15
   speedRun: 25
-  forceJump: 12
+  forceJump: 15
   ease: 27
