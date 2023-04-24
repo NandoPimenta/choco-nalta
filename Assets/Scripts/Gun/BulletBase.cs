@@ -6,21 +6,18 @@ public class BulletBase : MonoBehaviour
 {
 
     public Vector3 direaction;
-    public float timeToDestroy = 2f;
+    public float time = 2f;
     public float side = 1;
-
     public int damageAmount = 5;
 
-
-    private void Awake()
-    {
-        Destroy(gameObject, timeToDestroy);
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        transform.Translate(direaction * Time.deltaTime * side);
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(timeToReset());
+            transform.Translate(direaction * Time.deltaTime * side);
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -30,8 +27,17 @@ public class BulletBase : MonoBehaviour
         if(enemy != null)
         {
             enemy.Damage(damageAmount);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
+    
+      IEnumerator timeToReset()
+    {
+        
+            yield return new WaitForSeconds(time);
+            gameObject.SetActive(false);
+        
+    }
+    
 
 }
